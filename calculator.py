@@ -72,7 +72,7 @@ class Calculator:
         points_a = [(force_location / num_points_a) * i for i in range(num_points_a + 1)]
         points_b = [force_location + (((length - 2 * force_location) / num_points_b) * i) for i in
                     range(num_points_b + 1)]
-        points_c = [(length - force_location) + (((length - force_location - force_location) / num_points_c) * i) for i
+        points_c = [(length - force_location) + ((force_location / num_points_c) * i) for i
                     in
                     range(num_points_c + 1)]
 
