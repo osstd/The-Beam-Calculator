@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/favicon.ico') }}">
+    <title>The Beam Calculator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .masthead {
+            text-align: center;
+            padding: 80px 0;
+            background:url('../static/assets/img/header.jpg') center center/cover no-repeat;
+            color: #4F81BC;
+            mix-blend-mode: multiply;
+            opacity: 0.75;
+        }
+
+        .content-container {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #343a40;
+            color: #fff;
+        }
+        .form-control-sm{
+        width: 175px;
+        }
+        .card {
+        background-color: #f8f9fa;
+
+        }
+        .card-img {
+         mix-blend-mode: multiply;
+         opacity: 0.8;
+        }
+        .b-img {
+        mix-blend-mode: multiply;
+        opacity: 0.8;
+        }
+        .btn-primary {
+        background-color:#4F81BC;
+        border-color:#4F81BC;
+        }
+
+    </style>
+</head>
+<body>
+
+
+<header class="masthead">
+    <a style="color:#000F55;" href="{{url_for('index')}}" ><h1>Common Beams Shear Force & Bending Moment Calculator</h1></a>
+</header>
+
+
+<div class="container content-container">
+    {% if error: %}
+        <div class="container mt-4 mb-4">
+            <div class="alert alert-info fixed-width-alert" role="alert">
+            {{error}}
+            </div>
+
+            <div class="row justify-content-center">
+                <a class="btn btn-secondary" href="{{url_for('beam_home', beam_id = beam_id)}}">Return to Calculator</a>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if home: %}
+        <div class="row mt-3 mb-3">
+            {% for dict in beam_list: %}
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="card text-center mt-2 mb-2 d-flex justify-content-center">
+
+                        <div class="d-flex justify-content-center mt-5">
+                            <a href="{{url_for('beam_home', beam_id=dict.id)}}"><img src="{{url_for('static', filename=dict.path)}}" class="card-img" alt="Image_Beam" style="width: 275px; height: 275px;"></a>
+                        </div>
+                        <div>
+                            <a href="{{url_for('beam_home', beam_id=dict.id)}}">{{ dict.name }}</a>
+                        </div>
+                    </div>
+                </div>
+             {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if choice or plot: %}
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <img src="{{url_for('static', filename=beam_dict.path)}}" class="img-fluid b-img" alt="Content Photo">
+            <form
+            name="input"
+            action="{{url_for('calculate', beam_id=beam_dict.id)}}"
+            method="post" >
+                <div class="mt-3">
+                    <div class="row  justify-content-center">
+                        <input type="text" name="length" class="form-control-sm mb-2" placeholder="Length, L, in m" required>
+                        <input type="text" name="load" class="form-control-sm mb-2" placeholder="Load, W, in kN/m" required>
+                        {% if beam_dict.id == 1 or beam_dict.id == 2 or beam_dict.id == 5: %}
+                        <input type="text" name="location" class="form-control-sm mb-2" placeholder="Location, a, in m" required>
+                        {% endif %}
+                    </div>
+                    <div class="row  justify-content-center">
+                        <button type="submit" name="superimpose" class="btn-primary btn-sm mb-2 mr-1">Superimpose</button>
+                        <button type="submit" name="2-plots" class="btn-primary btn-sm  mb-2 ml-1">2-plots</button>
+                    </div>
+                </div>
+            </form>
+            <form
+            name="input"
+            action="{{url_for('beam_home', beam_id=beam_dict.id)}}"
+            >
+                <button type="submit" name="reset" class="btn-secondary btn-sm">Reset</button>
+            </form>
+
+        </div>
+    </div>
+    {% endif %}
+
+    {% if plot: %}
+    <div class="row justify-content-center mt-4">
+
+        {% if superimpose: %}
+
+        <div class="col-lg-6">
+                <canvas id="shearMomentChart" width="800" height="400"></canvas>
+
+                <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+        </div>
+
+        {% endif %}
+
+        {% if not superimpose: %}
+            <div class="container">
+
+                <div class="row  justify-content-center">
+                    <div class="col-lg-6">
+                        <canvas id="ShearChart" width="800" height="400"></canvas>
+                    </div>
+                </div>
+
+                <div class="row  justify-content-center">
+                    <div class="col-lg-6">
+                        <canvas id="MomentChart" width="800" height="400"></canvas>
+                    </div>
+                </div>
+            </div>
+                <script src="{{ url_for('static', filename='js/scripts2.js') }}"></script>
+        {% endif %}
+    </div>
+                <script>
+                    // Embed data using Jinja templating
+                    var lengthData = {{ length|tojson }};
+                    var shearData = {{ shear|tojson }};
+                    var momentData = {{ moment|tojson }};
+                </script>
+
+    {% endif %}
+
+    {% if plot or choice or error: %}
+    <div class="container mt-4 mb-4">
+        <div class="row justify-content-center">
+            <a class="btn btn-primary" href="{{url_for('index')}}">Home</a>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+
+
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 order-md-1 order-2 text-md-left">&copy; Copyright The Beam Calculator <span id="currentYear"></span></div><div class="col-md-6 order-md-2 order-1 text-md-right" id="currentDateTime"></div>
+        </div>
+    </div>
+</footer>
+
+<script>
+            function updateCurrentDateTime() {
+            var currentDateTimeElement = document.getElementById('currentDateTime');
+            var currentDate = new Date();
+
+            //Year only for statement
+            var currentYear = currentDate.getFullYear();
+
+            // Insert year
+            document.getElementById("currentYear").innerText = currentYear;
+
+            // Format date
+            var dateOptions = { month: 'short', day: 'numeric', year: 'numeric' };
+            var formattedDate = currentDate.toLocaleString(undefined, dateOptions);
+
+            // Format time
+            var timeOptions = { hour: 'numeric', minute: 'numeric', hour12: true };
+            var formattedTime = currentDate.toLocaleString(undefined, timeOptions);
+
+            // Combine date and time
+            var formattedDateTime = formattedDate + ' ' + formattedTime;
+
+            currentDateTimeElement.textContent = formattedDateTime;
+            }
+
+            // Update the current date and time initially
+            updateCurrentDateTime();
+</script>
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
