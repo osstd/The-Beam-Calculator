@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request
 from calculator import Calculator
+import os
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = os.environ.get('F_KEY')
 
 beam_list = [
     {'name': 'Simply Supported Beam - UDL', 'path': 'assets/img/ss_udl.jpg', 'id': 0},
@@ -68,4 +70,4 @@ def calculate(beam_id):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
