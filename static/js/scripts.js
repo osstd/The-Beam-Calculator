@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     yAxisID: 'shearYAxis',
                     data: shear,
                     borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 2, // Increase line width for better visibility
+                    borderWidth: 2,
                     fill: false
                 },
                 {
@@ -29,13 +29,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     yAxisID: 'momentYAxis',
                     data: moment,
                     borderColor: 'rgba(255, 99, 132, 1)',
-                    borderWidth: 2, // Increase line width for better visibility
+                    borderWidth: 2,
                     fill: false
                 },
                 {
                     label: 'Beam',
                     yAxisID: 'shearYAxis',
-                    data: Array(length.length).fill(0), // Array of zeros for the origin
+                    data: Array(length.length).fill(0),
                     borderColor: 'rgba(0, 0, 255)',
                     borderWidth: 2
                 }
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         text: 'Shear (kN)'
                     },
                     grid: {
-                        display: true // Turn off grid for shear
+                        display: true
                     },
 //                    max: maxShear,
 //                    min: minShear
@@ -73,22 +73,22 @@ document.addEventListener('DOMContentLoaded', function() {
                     },
                     suggestedMin: 0,
                     grid: {
-                        display: false // Turn off grid for moment
+                        display: false
                     }
                 }
 
             },
             plugins: {
                 legend: {
-                    position: 'top' // Position legend at the bottom
+                    position: 'top'
                 }
             },
             elements: {
                 line: {
-                    tension: 0.5 // Adjust tension for smooth lines
+                    tension: 0.5
                 },
                 point: {
-                    radius: 0 // Set point radius to 0 to disable points
+                    radius: 0
                 }
             }
         }

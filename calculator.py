@@ -27,13 +27,10 @@ class Calculator:
         if force_location == length or force_location == 0:
             return
 
-        # Number of points to calculate shear and bending moment
         num_points = self.num_points
 
         num_points_a = math.floor((force_location / length) * num_points)
         num_points_b = num_points - num_points_a
-
-        # Calculate shear force and bending moment at each point along the beam
 
         points_a = [(force_location / num_points_a) * i for i in range(num_points_a + 1)]
         points_b = [force_location + (((length - force_location) / num_points_b) * i) for i in range(num_points_b + 1)]
@@ -44,7 +41,7 @@ class Calculator:
         shear_force_a = [((force_magnitude * (length - force_location)) / length) for point in points_a]
         shear_force_b = ([((-force_magnitude * force_location) / length) for point in points_b])
         shear_force = shear_force_a + shear_force_b
-
+        # Moment Calc:
         max_moment = (force_magnitude * force_location * (length - force_location)) / (length)
         bending_moment_a = [(max_moment / force_location) * point for point in points_a]
         bending_moment_b = (
@@ -61,13 +58,11 @@ class Calculator:
         if force_location == length or force_location == 0:
             return
 
-        # Number of points to calculate shear and bending moment
         num_points = self.num_points
 
         num_points_a = math.floor((force_location / length) * num_points)
         num_points_b = num_points_a
         num_points_c = num_points - num_points_a - num_points_b
-        # Calculate shear force and bending moment at each point along the beam
 
         points_a = [(force_location / num_points_a) * i for i in range(num_points_a + 1)]
         points_b = [force_location + (((length - 2 * force_location) / num_points_b) * i) for i in
@@ -77,9 +72,7 @@ class Calculator:
                     range(num_points_c + 1)]
 
         points = points_a + points_b + points_c
-        print(points)
 
-        # Shear Calc:
         shear_force_a = [force_magnitude for point in points_a]
         shear_force_b = [0 for point in points_b]
         shear_force_c = [-force_magnitude for point in points_c]
@@ -92,7 +85,6 @@ class Calculator:
 
         bending_moment = bending_moment_a + bending_moment_b + bending_moment_c
 
-        print('I ran well, I am going to plot, now, the two point load on simply supported')
         return points, shear_force, bending_moment
 
     def cant_udl(self):
@@ -103,11 +95,9 @@ class Calculator:
 
         points = [(length / num_points) * i for i in range(num_points + 1)]
 
-        # Shear Calc:
         shear_force = [(force_magnitude * (length - point)) for point in points]
         bending_moment = [-(force_magnitude * (length - point) ** 2) / 2 for point in points]
 
-        print('I ran well, I am going to plot, now')
         return points, shear_force, bending_moment
 
     def cant_tpl(self):
@@ -118,11 +108,9 @@ class Calculator:
 
         points = [(length / num_points) * i for i in range(num_points + 1)]
 
-        # Shear Calc:
         shear_force = [force_magnitude * ((length - point) ** 2) / (2 * length) for point in points]
         bending_moment = [-force_magnitude * ((length - point) ** 3) / (6 * length) for point in points]
 
-        print('I ran well, I am going to plot, now')
         return points, shear_force, bending_moment
 
     def cant_pl(self, force_location):
@@ -135,7 +123,7 @@ class Calculator:
 
         elif force_location == length:
             points = [(length / num_points) * i for i in range(num_points + 1)]
-            shear_force = [force_magnitude for point in points]
+            shear_force = [force_magnitude for _ in range(len(points))]
             bending_moment = [-force_magnitude * (length - point) for point in points]
             return points, shear_force, bending_moment
 
@@ -143,15 +131,12 @@ class Calculator:
             num_points_a = math.floor((force_location / length) * num_points)
             num_points_b = num_points - num_points_a
 
-            # Calculate shear force and bending moment at each point along the beam
-
             points_a = [(force_location / num_points_a) * i for i in range(num_points_a + 1)]
             points_b = [force_location + (((length - force_location) / num_points_b) * i) for i in
                         range(num_points_b + 1)]
 
             points = points_a + points_b
 
-            # Shear Calc:
             shear_force_a = [force_magnitude for point in points_a]
             shear_force_b = ([0 for point in points_b])
             shear_force = shear_force_a + shear_force_b
@@ -160,5 +145,4 @@ class Calculator:
             bending_moment_b = ([0 for point in points_b])
             bending_moment = bending_moment_a + bending_moment_b
 
-            print('I ran well, I am going to plot, now')
             return points, shear_force, bending_moment
