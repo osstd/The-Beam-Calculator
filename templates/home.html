@@ -54,6 +54,7 @@
         }
 
 
+
     </style>
 </head>
 <body>
@@ -68,10 +69,14 @@
 <div class="container content-container">
     {% if error: %}
     <div class="container mt-4 mb-4">
-        <div class="alert alert-info fixed-width-alert" role="alert">
+        <div class="alert alert-warning fixed-width-alert" role="alert">
             {{error}}
         </div>
-
+        {% if beam_id == 2: %}
+        <div class="py-2 row justify-content-center">
+            <span>To use a simple beam with one point load <a href="{{url_for('beam_home', beam_id = 1)}}">here</a></span>
+        </div>
+        {% endif %}
         <div class="row justify-content-center">
             <a class="btn btn-secondary" href="{{url_for('beam_home', beam_id = beam_id)}}">Return to Calculator</a>
         </div>
@@ -175,6 +180,7 @@
                     var shearData = {{ shear|tojson }};
                     var momentData = {{ moment|tojson }};
 
+
     </script>
 
     {% endif %}
@@ -226,6 +232,7 @@
 
             // Update the current date and time
             updateCurrentDateTime();
+
 
 </script>
 

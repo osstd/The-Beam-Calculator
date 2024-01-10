@@ -56,7 +56,11 @@ class Calculator:
         length = self.length
 
         if force_location == length or force_location == 0:
-            return
+            raise ValueError("Error, don't input the load at the support location!")
+
+        if force_location == length / 2:
+            raise ValueError("Error, Two point loads can't be placed at mid-span. "
+                             "Use a simple beam with one point load instead.")
 
         num_points = self.num_points
 

@@ -52,8 +52,8 @@ def calculate(beam_id):
             elif beam_id == 2:
                 try:
                     points, shear_force, bending_moment = calculator.ss_2pl(force_location)
-                except TypeError:
-                    return render_template('home.html', error=message, beam_id=beam_id)
+                except ValueError as e:
+                    return render_template('home.html', error=e, beam_id=beam_id)
             else:
                 try:
                     points, shear_force, bending_moment = calculator.cant_pl(force_location)
