@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/favicon.ico') }}">
+    <title>The Beam Calculator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/require.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/pages/index.css')}}">
+</head>
+<body>
+
+
+<header class="masthead">
+</header>
+
+<div class="container">
+    <section>
+        <div class="title-container">
+            <h1>Common Beams Shear Force & Bending Moment Calculator</h1>
+        </div>
+        <div class="grid-container">
+            {% for dict in beam_list: %}
+            <div class="grid-item">
+                <div class="image-wrapper">
+                    <a href="{{url_for('beam_home', beam_id=dict.id)}}"><img
+                            src="{{url_for('static', filename=dict.path)}}"
+                            class="grid-image" alt="Image_Beam_{{dict.id}}"></a>
+                </div>
+                <div class="description">
+                    <a href="{{url_for('beam_home', beam_id=dict.id)}}">{{ dict.name }}</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+
+<footer class="footer">
+    <div class="footer-container">
+            <span>&copy;The Beam Calculator <span
+                    id="currentYear"></span></span>
+        <span id="currentDateTime"></span>
+    </div>
+</footer>
+
+<script src="{{url_for('static', filename='js/scriptsrequire.js')}}"></script>
+
+</body>
+</html>

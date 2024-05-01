@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/favicon.ico') }}">
+    <title>The Beam Calculator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/require.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/pages/beam.css')}}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+
+<header class="masthead">
+</header>
+
+
+<div class="container">
+
+    <div class="title-container">
+        <h1>Common Beams Shear Force & Bending Moment Calculator</h1>
+    </div>
+
+    {% if error: %}
+    <div class="alert-container">
+        <div class="alert-error fixed-width">
+            {{error}}
+        </div>
+        {% if beam_id == 2: %}
+        <div class="alert-span fixed-width">
+                <span>To use a simple beam with <a id="not-tag" class="not-tag"
+                                                   href="{{url_for('beam_home', beam_id = 1)}}">one point load</a></span>
+        </div>
+        {% endif %}
+        <div class="center-content">
+            <a class="btn btn-secondary" href="{{url_for('beam_home', beam_id = beam_id)}}">Return to Calculator</a>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if choice or plot: %}
+    <div class="center-content">
+        <div class="grid-container">
+            <div class="grid-item">
+                <div class="image-wrapper center-content">
+                    <img src="{{url_for('static', filename=beam_dict.path)}}" class="grid-image"
+                         alt="Content Photo">
+                </div>
+            </div>
+
+            <form
+                    name="input"
+                    action="{{url_for('calculate', beam_id=beam_dict.id)}}"
+                    method="post">
+                <div class="grid-item center-content">
+                    <input type="text" name="length" class="input-field" placeholder="Length, L, in m"
+                           required>
+                    {% if beam_dict.id == 1 or beam_dict.id == 2 or beam_dict.id == 5: %}
+                    <input type="text" name="location" class="input-field"
+                           placeholder="Location, a, in m"
+                           required>
+                    <input type="text" name="load" class="input-field" placeholder="Load, F, in kN"
+                           required>
+                    {% else: %}
+                    <input type="text" name="load" class="input-field" placeholder="Load, W, in kN/m"
+                           required>
+                    {% endif %}
+                </div>
+                <div class="grid-item center-content">
+                    <button type="submit" name="superimpose" class="btn-primary btn first-color">Superimpose
+                    </button>
+                    <button type="submit" name="2-plots" class="btn-primary btn second-color">2-plots</button>
+                </div>
+            </form>
+
+            <div class="grid-item">
+                <form
+                        name="input"
+                        action="{{url_for('beam_home', beam_id=beam_dict.id)}}"
+                        class="center-content"
+                >
+                    <button type="submit" name="reset" class="btn-secondary btn">Reset</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if plot: %}
+    <div class="center-content">
+
+        {% if superimpose: %}
+
+        <div class="col-lg-6">
+            <canvas id="shearMomentChart" width="800" height="400"></canvas>
+
+            <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+        </div>
+
+        {% endif %}
+
+        {% if not superimpose: %}
+        <div class="container">
+
+            <div class="row  justify-content-center">
+                <div class="col-lg-6">
+                    <canvas id="ShearChart" width="800" height="400"></canvas>
+                </div>
+            </div>
+
+            <div class="row  justify-content-center">
+                <div class="col-lg-6">
+                    <canvas id="MomentChart" width="800" height="400"></canvas>
+                </div>
+            </div>
+        </div>
+        <script src="{{ url_for('static', filename='js/scripts2.js') }}"></script>
+        {% endif %}
+    </div>
+    <script>
+                    // Embed data using Jinja templating
+                    var lengthData = {{ length|tojson }};
+                    var shearData = {{ shear|tojson }};
+                    var momentData = {{ moment|tojson }};
+
+
+    </script>
+
+    {% endif %}
+
+    {% if plot or choice or error: %}
+    <div class="container">
+        <div class="center-content">
+            <a class="btn btn-primary" href="{{url_for('index')}}">Home</a>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+
+<footer class="footer">
+    <div class="footer-container">
+            <span>&copy;The Beam Calculator <span
+                    id="currentYear"></span></span>
+        <span id="currentDateTime"></span>
+    </div>
+</footer>
+
+<script src="{{url_for('static', filename='js/scriptsrequire.js')}}"></script>
+
+</body>
+</html>

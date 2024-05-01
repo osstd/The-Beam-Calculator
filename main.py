@@ -17,13 +17,13 @@ beam_list = [
 
 @app.route('/')
 def index():
-    return render_template('home.html', home=True, beam_list=beam_list)
+    return render_template('index.html', home=True, beam_list=beam_list)
 
 
 @app.route('/beam/<int:beam_id>')
 def beam_home(beam_id):
     beam_dict = beam_list[beam_id]
-    return render_template('home.html', beam_dict=beam_dict, choice=True)
+    return render_template('beam.html', beam_dict=beam_dict, choice=True)
 
 
 @app.route('/calculate/<int:beam_id>', methods=['GET', 'POST'])
@@ -48,24 +48,24 @@ def calculate(beam_id):
                 try:
                     points, shear_force, bending_moment = calculator.ss_pl(force_location)
                 except TypeError:
-                    return render_template('home.html', error=message, beam_id=beam_id)
+                    return render_template('beam.html', error=message, beam_id=beam_id)
             elif beam_id == 2:
                 try:
                     points, shear_force, bending_moment = calculator.ss_2pl(force_location)
                 except ValueError as e:
-                    return render_template('home.html', error=e, beam_id=beam_id)
+                    return render_template('beam.html', error=e, beam_id=beam_id)
             else:
                 try:
                     points, shear_force, bending_moment = calculator.cant_pl(force_location)
                 except TypeError:
-                    return render_template('home.html', error=message, beam_id=beam_id)
+                    return render_template('beam.html', error=message, beam_id=beam_id)
 
         if 'superimpose' in request.form:
-            return render_template('home.html', plot=True, superimpose=True, beam_dict=beam_dict, length=points,
+            return render_template('beam.html', plot=True, superimpose=True, beam_dict=beam_dict, length=points,
                                    shear=shear_force, moment=bending_moment)
 
         if '2-plots' in request.form:
-            return render_template('home.html', plot=True, choice=False, superimpose=False, beam_dict=beam_dict,
+            return render_template('beam.html', plot=True, choice=False, superimpose=False, beam_dict=beam_dict,
                                    length=points, shear=shear_force, moment=bending_moment)
 
 
