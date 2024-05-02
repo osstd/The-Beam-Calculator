@@ -34,13 +34,12 @@
   object-fit: contain;
   mix-blend-mode: multiply;
   opacity: 0.8;
-  transition: transform 0.3s ease;
-  transition: background-color 0.5s ease;
+  transition: transform 0.3s ease, filter 0.3s ease;
 }
 
 .grid-image:hover {
-  background-color: #d9d9d9;
-  transform: scale(1.1);
+  transform: scale(1.05);
+  filter: grayscale(100%);
 }
 
 .description {

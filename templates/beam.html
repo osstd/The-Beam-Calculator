@@ -29,7 +29,7 @@
         <div class="alert-error fixed-width">
             {{error}}
         </div>
-        {% if beam_id == 2: %}
+        {% if beam_id == 2 and mid_span: %}
         <div class="alert-span fixed-width">
                 <span>To use a simple beam with <a class="not-tag"
                                                    href="{{url_for('beam_home', beam_id = 1)}}">one point load</a></span>
@@ -59,17 +59,17 @@
                     action="{{url_for('calculate', beam_id=beam_dict.id)}}"
                     method="post">
                 <div class="grid-item center-content">
-                    <input type="text" name="length" class="input-field" placeholder="Length, L, in m"
-                           required step="any" inputmode="numeric">
+                    <input type="number" name="length" class="input-field" placeholder="Length, L, in m"
+                           required step="any">
                     {% if beam_dict.id == 1 or beam_dict.id == 2 or beam_dict.id == 5: %}
                     <input type="number" name="location" class="input-field"
                            placeholder="Location, a, in m"
-                           required step="any" inputmode="numeric">
+                           required step="any">
                     <input type="number" name="load" class="input-field" placeholder="Load, F, in kN"
-                           required step="any" inputmode="numeric">
+                           required step="any">
                     {% else: %}
                     <input type="number" name="load" class="input-field" placeholder="Load, W, in kN/m"
-                           required step="any" inputmode="numeric">
+                           required step="any">
                     {% endif %}
                 </div>
                 <div class="grid-item center-content">

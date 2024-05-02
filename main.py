@@ -69,6 +69,8 @@ def calculate(beam_id):
                 try:
                     points, shear_force, bending_moment = calculator.ss_2pl(force_location)
                 except ValueError as e:
+                    if force_location == length / 2:
+                        return render_template('beam.html', error=e, beam_id=beam_id, mid_span=True)
                     return render_template('beam.html', error=e, beam_id=beam_id)
             else:
                 try:
