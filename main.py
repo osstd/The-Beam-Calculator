@@ -30,8 +30,19 @@ def beam_home(beam_id):
 def calculate(beam_id):
     if request.method == 'POST':
         beam_dict = beam_list[beam_id]
-        length = float(request.form['length'])
-        load = float(request.form['load'])
+        length_input = request.form['length']
+        load_input = request.form['load']
+        if not (length_input.replace('.', '', 1).isdigit() or length_input.isdigit()):
+            message = 'Input error, length must be a number.'
+            return render_template('beam.html', error=message, beam_id=beam_id)
+
+        if not (load_input.replace('.', '', 1).isdigit() or load_input.isdigit()):
+            message = 'Input error, load must be a number.'
+            return render_template('beam.html', error=message, beam_id=beam_id)
+
+        length = float(length_input)
+        load = float(load_input)
+
         calculator = Calculator(length, load)
         if beam_id == 0 or beam_id == 3 or beam_id == 4:
             if beam_id == 0:
@@ -42,7 +53,12 @@ def calculate(beam_id):
                 points, shear_force, bending_moment = calculator.cant_tpl()
 
         else:
-            force_location = float(request.form['location'])
+            force_location_input = request.form['location']
+            if not (force_location_input.replace('.', '', 1).isdigit() or force_location_input.isdigit()):
+                message = 'Input error, force location must be a number.'
+                return render_template('beam.html', error=message, beam_id=beam_id)
+
+            force_location = float(force_location_input)
             message = "Error, don't input the load at the support location!"
             if beam_id == 1:
                 try:

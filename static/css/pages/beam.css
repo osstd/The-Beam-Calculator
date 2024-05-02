@@ -4,7 +4,7 @@
 }
 
 .alert-error {
-  padding: 1%;
+  padding: 2%;
   border: 1px solid #ffc107;
   border-radius: 5px;
   background-color: #fff3cd;
@@ -57,14 +57,15 @@ a.not-tag {
   grid-template-rows: auto auto;
 }
 
-.grid-item, .grid-item-chart {
+.grid-item,
+.grid-item-chart {
   position: relative;
   overflow: hidden;
   margin: 1% 0;
   padding: 1% 0;
 }
 
-.grid-item-chart{
+.grid-item-chart {
   border-radius: 5px;
   border-color: var(--jet);
   border-style: solid;
@@ -119,10 +120,21 @@ a.not-tag {
 }
 
 .btn-primary.btn.second-color {
-  background-color: var(--turqouise-green);
+  background-color: var(--turquoise-green);
   border-style: none;
   padding: 1%;
   margin: 1%;
   min-width: fit-content;
   font-family: var(--ff-jost);
+}
+
+.btn.btn-primary,
+.btn.btn-secondary {
+  font-family: var(--ff-jost);
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

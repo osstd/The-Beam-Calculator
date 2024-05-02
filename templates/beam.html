@@ -31,12 +31,14 @@
         </div>
         {% if beam_id == 2: %}
         <div class="alert-span fixed-width">
-                <span>To use a simple beam with <a id="not-tag" class="not-tag"
+                <span>To use a simple beam with <a class="not-tag"
                                                    href="{{url_for('beam_home', beam_id = 1)}}">one point load</a></span>
         </div>
         {% endif %}
-        <div class="center-content">
-            <a class="btn btn-secondary" href="{{url_for('beam_home', beam_id = beam_id)}}">Return to Calculator</a>
+        <div class="container">
+            <div class="center-content">
+                <a class="btn btn-secondary" href="{{url_for('beam_home', beam_id = beam_id)}}">Return to Calculator</a>
+            </div>
         </div>
     </div>
     {% endif %}
@@ -51,22 +53,23 @@
                 </div>
             </div>
 
+
             <form
                     name="input"
                     action="{{url_for('calculate', beam_id=beam_dict.id)}}"
                     method="post">
                 <div class="grid-item center-content">
                     <input type="text" name="length" class="input-field" placeholder="Length, L, in m"
-                           required>
+                           required step="any" inputmode="numeric">
                     {% if beam_dict.id == 1 or beam_dict.id == 2 or beam_dict.id == 5: %}
-                    <input type="text" name="location" class="input-field"
+                    <input type="number" name="location" class="input-field"
                            placeholder="Location, a, in m"
-                           required>
-                    <input type="text" name="load" class="input-field" placeholder="Load, F, in kN"
-                           required>
+                           required step="any" inputmode="numeric">
+                    <input type="number" name="load" class="input-field" placeholder="Load, F, in kN"
+                           required step="any" inputmode="numeric">
                     {% else: %}
-                    <input type="text" name="load" class="input-field" placeholder="Load, W, in kN/m"
-                           required>
+                    <input type="number" name="load" class="input-field" placeholder="Load, W, in kN/m"
+                           required step="any" inputmode="numeric">
                     {% endif %}
                 </div>
                 <div class="grid-item center-content">
@@ -114,12 +117,9 @@
                     <canvas id="ShearChart" width="800" height="400"></canvas>
                 </div>
 
-
-                <!--            <div class="row  justify-content-center">-->
                 <div class="grid-item-chart">
                     <canvas id="MomentChart" width="800" height="400"></canvas>
                 </div>
-                <!--            </div>-->
             </div>
         </div>
         <script src="{{ url_for('static', filename='js/scripts2.js') }}"></script>
@@ -130,6 +130,10 @@
                     var lengthData = {{ length|tojson }};
                     var shearData = {{ shear|tojson }};
                     var momentData = {{ moment|tojson }};
+
+
+
+
 
 
 

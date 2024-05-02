@@ -2,14 +2,14 @@
   --jet: hsl(0, 0%, 22%);
   --davys-gray: hsl(0, 0%, 33%);
   --pink-red: rgb(252, 101, 133);
-  --turqouise-green: rgb(81, 192, 191);
+  --turquoise-green: rgb(81, 192, 191);
   --bright-blue: rgb(11, 36, 251);
   --ff-jost: "Jost", sans-serif;
 }
 html {
   font-family: var(--ff-jost);
   font-size: 12px;
-  scroll-behavior: smoooth;
+  scroll-behavior: smooth;
 }
 
 body {
