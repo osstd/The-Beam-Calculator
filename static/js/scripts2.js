@@ -3,14 +3,17 @@ document.addEventListener("DOMContentLoaded", function () {
   var shear = shearData;
   var moment = momentData;
 
-  // Calculate max and min shear values
+  // Calculate max and min shear and moment values
   var maxShear = Math.max(...shear);
   var minShear = Math.min(...shear);
 
   if (maxShear === minShear) {
     maxShear = maxShear;
-    minShear = 0;
+    minShear = 0.0;
   }
+
+  var maxMoment = Math.max(...moment);
+  var minMoment = Math.min(...moment);
 
   // Create a Shear Chart.js chart
   var ctx = document.getElementById("ShearChart").getContext("2d");
@@ -23,16 +26,22 @@ document.addEventListener("DOMContentLoaded", function () {
           label: "Shear",
           yAxisID: "shearYAxis",
           data: shear,
-          borderColor: "rgba(75, 192, 192, 1)",
-          borderWidth: 2,
-          fill: true,
+          borderColor: "rgb(171, 195, 124)",
+          borderWidth: 1,
+          order: 1,
+          fill: {
+            target: true,
+            above: "rgb(171, 195, 124)",
+            below: "rgb(171, 195, 124)",
+          },
         },
         {
           label: "Beam",
           yAxisID: "shearYAxis",
           data: Array(length.length).fill(0),
-          borderColor: "rgba(0, 0, 255)",
+          borderColor: "rgb(0, 0, 0)",
           borderWidth: 2,
+          order: 0,
         },
       ],
     },
@@ -59,8 +68,8 @@ document.addEventListener("DOMContentLoaded", function () {
           grid: {
             display: false,
           },
-          max: maxShear,
-          min: minShear,
+          //          max: maxShear,
+          //          min: minShear,
         },
       },
       plugins: {
@@ -90,16 +99,22 @@ document.addEventListener("DOMContentLoaded", function () {
           label: "Moment",
           yAxisID: "momentYAxis",
           data: moment,
-          borderColor: "rgba(255, 99, 132, 1)",
-          borderWidth: 2,
-          fill: true,
+          borderColor: "rgb(197, 113, 114)",
+          borderWidth: 1,
+          order: 1,
+          fill: {
+            target: true,
+            above: "rgb(197, 113, 114)",
+            below: "rgb(197, 113, 114)",
+          },
         },
         {
           label: "Beam",
           yAxisID: "momentYAxis",
           data: Array(length.length).fill(0),
-          borderColor: "rgba(0, 0, 255)",
+          borderColor: "rgb(0, 0, 0)",
           borderWidth: 2,
+          order: 0,
         },
       ],
     },
@@ -126,6 +141,8 @@ document.addEventListener("DOMContentLoaded", function () {
           grid: {
             display: false,
           },
+          //          max: maxMoment,
+          //          min: minMoment,
         },
       },
       plugins: {
