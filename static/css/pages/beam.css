@@ -34,7 +34,9 @@ a.not-tag {
   cursor: pointer;
 }
 
-.grid-container {
+.grid-container,
+.grid-container-1,
+.grid-container-2 {
   max-width: 98%;
   display: grid;
   grid-template-rows: auto auto auto auto;
@@ -45,6 +47,14 @@ a.not-tag {
   border-color: var(--jet);
   border-style: solid;
   border-width: 0.1rem;
+}
+
+.grid-container-1 {
+  grid-template-rows: auto;
+}
+
+.grid-container-2 {
+  grid-template-rows: auto auto;
 }
 
 .grid-item {
